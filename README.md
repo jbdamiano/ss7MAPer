@@ -4,9 +4,9 @@ SS7 MAP (pen-)testing toolkit
 
 ## Binary releases
 
-As a lot of people run into problems building the tool, there are binary releases which can be found here: https://github.com/ernw/ss7MAPer/tree/master/releases
+As a lot of people run into problems building the tool, there are binary releases which can be found here: https://github.com/0xc0decafe/ss7MAPer/tree/master/releases
 
-As people also run into problems using the binary release, there is a [docker image](https://hub.docker.com/r/ernw/ss7maper/) with ss7MAPer running on ubuntu 16.04
+~~As people also run into problems using the binary release, there is a [docker image](https://hub.docker.com/r/ernw/ss7maper/) with ss7MAPer running on ubuntu 16.04~~
 
 If you use the binary version, skip right over the next chapter.
 
@@ -20,7 +20,7 @@ You will need:
 
  * The code (;   
  
-        git clone https://github.com/ernw/ss7MAPer   
+        git clone https://github.com/0xc0decafe/ss7MAPer   
         
  * The dependencies   
  
@@ -90,7 +90,7 @@ You will need:
         
         rebar co   
            
-If all the steps above are too much to do by hand (as for me testing ;) you can use the build script here: https://github.com/ernw/ss7MAPer/blob/master/prepare_n_build.sh
+If all the steps above are too much to do by hand (as for me testing ;) you can use the build script here: https://github.com/0xc0decafe/ss7MAPer/blob/master/prepare_n_build.sh
 
 ## The config file
 
