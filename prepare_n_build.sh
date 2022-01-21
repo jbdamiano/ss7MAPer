@@ -46,6 +46,16 @@ ln -sd ../../pkt $deps/osmo_map/$deps/pkt
 
 cp $deps/signerl/SCCP/itu/include/sccp.hrl $deps/osmo_sccp/src/   
 cp $deps/signerl/TCAP/include/tcap.hrl $deps/osmo_map/src/
+cd $deps/osmo_map/asn1
+erlc  -W -b ber_bin +optimize +driver +noobj  map.set.asn1
+erlc  -W -b ber_bin +optimize +driver +noobj  map_only.set.asn1
+erlc  -W -b ber_bin +optimize +driver +noobj  tcap_asn.set.asn1
+cp map.* ../src/
+cp tcap_asn.* ../src
+cp map_only.* ../src/
+
+cd ../../../../..
+
 
 rebar3 compile
 
