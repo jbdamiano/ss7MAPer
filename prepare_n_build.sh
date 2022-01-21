@@ -4,7 +4,6 @@ set -e
 
 git clone https://github.com/jbdamiano/ss7MAPer.git
 
-cp rebar.config ss7MAPer
 cd ss7MAPer
 rebar3 get-deps
 
