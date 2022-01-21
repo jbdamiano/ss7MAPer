@@ -59,14 +59,4 @@ cd ../../../../..
 
 rebar3 compile
 
-cd rel/
-rebar3 create-node nodeid=ss7MAPer
-cd ..
 
-rm $deps/signerl/TCAP/ebin/tcap_cco_server.beam
-rm $deps/signerl/TCAP/ebin/tcap_ism_fsm.beam
-rm $deps/signerl/TCAP/ebin/tcap_tco_server.beam
-rm$ deps/signerl/TCAP/ebin/tcap_tsm_fsm.beam
-r$m deps/signerl/TCAP/ebin/tcap_dha_fsm.beam
-
-rebar3 generate

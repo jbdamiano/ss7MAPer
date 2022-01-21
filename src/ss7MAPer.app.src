@@ -8,6 +8,6 @@
                   stdlib,
                   sasl
                  ]},
-  {mod, { ss7MAPer_app, ["./config"]}},
+  {mod, { ss7MAPer_app, ["./app_config"]}},
   {env, []}
  ]}.
