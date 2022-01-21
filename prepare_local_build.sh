@@ -10,8 +10,6 @@ cd $deps/osmo_map
 patch -p1 < ../../../../patches/osmo_map.patch   
 cd ../osmo_sccp   
 patch -p1 < ../../../../patches/osmo_sccp.patch   
-cd ../osmo_ss7   
-patch -p1 < ../../../../patches/osmo_ss7.patch 
 
 cd ../../../../
 sed -i 's/DRV_CFLAGS/CFLAGS/g' $deps/epcap/rebar.config
