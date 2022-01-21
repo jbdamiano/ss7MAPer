@@ -1,7 +1,7 @@
 {sctp, [
-    {local_ip, {127,0,0,2}}, 
+    {local_ip, {127,0,0,1}}, 
     {local_port, 2905}, 
-    {remote_ip, {127,0,0,1}}, 
+    {remote_ip, {127,0,0,2}}, 
     {remote_port, 2905}
 ]}.
 {m3ua, [

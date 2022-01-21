@@ -60,6 +60,7 @@ connect(Configfile) ->
                     %~ FNumber),
     %~ error_logger:tty(false),
     % start link server and create linkset
+    io:format("call start link ...~n"),
     {ok, SS7linksPid} = ss7_links:start_link(),
     sys:trace(ss7_links, ?TRACE),
     {local_pc, Local_PC} = lists:keyfind(local_pc, 1, M3UA_Config),
@@ -82,7 +83,7 @@ connect(Configfile) ->
     {link_select, Link_Select} = lists:keyfind(link_select, 1, M3UA_Config),
     Link = #sigtran_link{type = m3ua, name = "test_link", linkset_name = "test_linkset",
                 sls = Link_Select, local = Local, remote = Remote, asp_id = Asp_ID,
-                route_ctx = Route_CTX, net_app = Net_Appearance},
+                route_ctx = Route_CTX, net_app = Net_Appearance, role = asp},
     {ok, M3uaPid} = ss7_link_m3ua:start_link(Link),
     %~ sys:trace(ss7_link_m3ua, ?TRACE),
     %~ sys:trace(m3ua_core, ?TRACE),
@@ -124,7 +125,7 @@ handle_cast({test_smsc}, L) ->
     {noreply, map_tests:test_smsc(L)}.
 
 handle_call(_, _From, L) ->
-    {ok, [], L}.
+    {reply, {ok, []}, L}.
 
 test_hlr() ->
     gen_server:cast(?MODULE, {test_hlr}).
