@@ -1,17 +1,19 @@
 diff --git a/include/osmo_ss7.hrl b/include/osmo_ss7.hrl
-index 72da4d7..6af4038 100644
+index 72da4d7..ec650d2 100644
 --- a/include/osmo_ss7.hrl
 +++ b/include/osmo_ss7.hrl
 @@ -14,7 +14,10 @@
-        sls             :: non_neg_integer(),
-        local           :: #sigtran_peer{},
-        remote          :: #sigtran_peer{},
--       role            :: role()
-+       role            :: role(),
-+        asp_id          :: integer(),
-+        route_ctx       :: integer(),
-+        net_app         :: integer()
+ 	sls		:: non_neg_integer(),
+ 	local		:: #sigtran_peer{},
+ 	remote		:: #sigtran_peer{},
+-	role		:: role()
++	role		:: role(),
++	asp_id          :: integer(),
++	route_ctx       :: integer(),
++	net_app         :: integer()
  }).
+ 
+ 
 diff --git a/include/sccp.hrl b/include/sccp.hrl
 index 46b4c11..58036cc 100644
 --- a/include/sccp.hrl
@@ -29,15 +31,16 @@ diff --git a/src/m3ua_codec.erl b/src/m3ua_codec.erl
 index 5b29b7e..e5976e8 100644
 --- a/src/m3ua_codec.erl
 +++ b/src/m3ua_codec.erl
-@@ -86,11 +86,17 @@ parse_m3ua_opt(Opt, Msg) ->
+@@ -85,12 +85,18 @@ parse_m3ua_opt(Opt, Msg) ->
  
  
- encode_m3ua_msg(#m3ua_msg{version = Version, msg_class = MsgClass,
+ 
++encode_m3ua_msg(#m3ua_msg{version = Version, msg_class = MsgClass,
 +			  msg_type = ?M3UA_MSGT_ASPSM_ASPUP, payload = OptList}) ->
 +	OptBin = encode_m3ua_opts(OptList),
 +    MsgLen = byte_size(OptBin) + 8,
 +	<<Version:8, 0:8, MsgClass:8, ?M3UA_MSGT_ASPSM_ASPUP:8, MsgLen:32/big, OptBin/binary>>;
-+encode_m3ua_msg(#m3ua_msg{version = Version, msg_class = MsgClass,
+ encode_m3ua_msg(#m3ua_msg{version = Version, msg_class = MsgClass,
  			  msg_type = MsgType, payload = OptList}) ->
  	OptBin = encode_m3ua_opts(OptList),
 -	MsgLen = byte_size(OptBin) + 8,
