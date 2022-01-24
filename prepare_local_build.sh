@@ -8,8 +8,7 @@ deps="_build/default/lib"
 
 cd $deps/osmo_map   
 patch -p1 < ../../../../patches/osmo_map.patch   
-cd ../osmo_sccp   
-patch -p1 < ../../../../patches/osmo_sccp.patch   
+
 
 cd ../../../../
 sed -i 's/DRV_CFLAGS/CFLAGS/g' $deps/epcap/rebar.config

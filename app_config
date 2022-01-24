@@ -1,7 +1,7 @@
 {sctp, [
     {local_ip, {127,0,0,1}}, 
-    {local_port, 2905}, 
-    {remote_ip, {127,0,0,2}}, 
+    {local_port, 2904}, 
+    {remote_ip, {127,0,0,1}}, 
     {remote_port, 2905}
 ]}.
 {m3ua, [
@@ -10,7 +10,8 @@
     {network_ind, 2},
     {route_ctx, 6},
     {asp_id, none},
-    {net_appearance, none}
+    {net_appearance, none},
+    {link_select, 0}
 ]}.
 {sccp, [
     {gt_local, [1,2,3,4,5,6,7,8,9]}
