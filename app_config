@@ -6,9 +6,9 @@
 ]}.
 {m3ua, [
     {local_pc, 10},
-    {remote_pc, 20},
+    {remote_pc, 31},
     {network_ind, 2},
-    {route_ctx, 6},
+    {route_ctx, none},
     {asp_id, none},
     {net_appearance, none},
     {link_select, 0}
@@ -28,3 +28,5 @@
     {service_center, [9,8,7,6,5,4,3,2,1]},
     {forward_number, [9,8,7,6,5,4,3,2,0]}
 ]}.
+{test, hlr}.
+

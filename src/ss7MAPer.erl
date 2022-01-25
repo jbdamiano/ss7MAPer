@@ -38,6 +38,15 @@ connect(Configfile) ->
     {m3ua, M3UA_Config} = lists:keyfind(m3ua, 1, Config),
     {sccp, Sccp} = lists:keyfind(sccp, 1, Config),
     {target, Target} = lists:keyfind(target, 1, Config),
+    Result = lists:keyfind(test, 1, Config),
+    
+    {test, Test} = if Result == false ->
+        {test, Result};
+    true ->
+        Result
+    end,
+    
+
     {gt_local, GT_Local} = lists:keyfind(gt_local, 1, Sccp),
     {gt_hlr, GT_Hlr} = lists:keyfind(gt_hlr, 1, Target),
     {gt_vlr, GT_Vlr} = lists:keyfind(gt_vlr, 1, Target),
@@ -96,9 +105,10 @@ connect(Configfile) ->
     sys:trace(sccp_user, ?TRACE),
     io:format("Waiting for M3UA link ...~n"),
     wait_for_link(Link),
+    timer:send_after(1000,self(),{start_test}),
     #loop_dat{m3ua_pid = M3uaPid, scrc_pid = ScrcPid, ss7links_pid = SS7linksPid, ss7routes_pid = SS7routesPid, link = Link,
                 local_pc = Local_PC, remote_pc = Remote_PC, gt_local = GT_Local, gt_hlr = GT_Hlr, gt_vlr = GT_Vlr, gt_msc = GT_Msc, 
-                gt_sgsn = GT_Sgsn, gt_gmsc = GT_Gmsc, gt_smsc = GT_Smsc, msisdn = Msisdn, imsi = Imsi, scenter = SCenter, fnumber = FNumber}.
+                gt_sgsn = GT_Sgsn, gt_gmsc = GT_Gmsc, gt_smsc = GT_Smsc, msisdn = Msisdn, imsi = Imsi, scenter = SCenter, fnumber = FNumber, test = Test}. 
 
 wait_for_link(Link) ->
     case ss7_link_m3ua:get_link_state(Link) of
@@ -111,6 +121,8 @@ wait_for_link(Link) ->
       _ -> 
         {error}
      end.
+
+
 
 handle_cast({test_hlr}, L) ->
     io:format("Testing HLR~n"),
@@ -127,6 +139,9 @@ handle_cast({test_smsc}, L) ->
 handle_call(_, _From, L) ->
     {reply, {ok, []}, L}.
 
+
+
+
 test_hlr() ->
     gen_server:cast(?MODULE, {test_hlr}).
 
@@ -139,15 +154,27 @@ test_smsc() ->
 code_change(_OldVsn, State, _Extra) ->
 	{ok, State}.
 
-handle_info(Info, S) ->
-	error_logger:error_report(["unknown handle_info",
-				  {module, ?MODULE},
-				  {info, Info}, {state, S}]),
-	{noreply, S}.
+handle_info({start_test},L)-> %<=========handle the timer event
+    %io:format("handle info~n",[]),
+    start_test(L#loop_dat.test),
+    {noreply,L}.
+
 
 terminate(Reason, _S) ->
 	io:format("terminating ~p with reason ~p", [?MODULE, Reason]),
     ok.
+
+start_test(Test) ->
+    io:format("start test ~w~n", [Test]),
+    case Test of
+        hlr -> test_hlr();
+        msc -> test_msc();
+        smsc -> test_smsc();
+        false -> io:format("no test configured to run automatically~n");
+        _ -> io:format("unknown test ~w~n", [Test])
+    end.
+
+
 
 scrc_tx_to_mtp(Prim, Args) ->
 	M3uaPid = Args,

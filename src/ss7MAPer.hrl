@@ -25,5 +25,6 @@
      msisdn,
      imsi,
      scenter,
-     fnumber
+     fnumber, 
+     test
 	}).
