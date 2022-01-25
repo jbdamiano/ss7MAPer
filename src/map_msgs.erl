@@ -227,12 +227,10 @@ create_sendRoutingInfo(Msisdn, OrGsmSCF) ->
                     asn1_NOVALUE,
                     ['o-csi','d-csi','t-csi']},
                 asn1_NOVALUE,
-                asn1_NOVALUE,
-
-                %{'ExtensionContainer',
-                %    [{'PrivateExtension',{1,2,826,0,1249,58,1,0},<<164,5,48,3,129,1,6>>}, %Nokia ExtensionType Extension
-                %     {'PrivateExtension',{0,34,5},<<224,2,132,0>>}],    %Nokia srbtSupportIndicator
-                %    asn1_NOVALUE},
+                {'ExtensionContainer',
+                    [{'PrivateExtension',{1,2,826,0,1249,58,1,0},<<164,5,48,3,129,1,6>>}, %Nokia ExtensionType Extension
+                     {'PrivateExtension',{0,34,5},<<224,2,132,0>>}],    %Nokia srbtSupportIndicator
+                    asn1_NOVALUE},
                 asn1_NOVALUE,
                 asn1_NOVALUE,
                 asn1_NOVALUE,

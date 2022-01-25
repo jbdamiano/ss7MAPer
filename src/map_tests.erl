@@ -13,8 +13,8 @@
 test_hlr(L) ->
     ok = sccp_user:bind_ssn(?SCCP_SSN_MSC),
     Gts = {L#loop_dat.gt_local, L#loop_dat.gt_hlr},
-    test_sri(Gts, L),
-    test_srifs(Gts, L),
+    %test_sri(Gts, L),
+    %test_srifs(Gts, L),
     L2 = test_si(Gts, L),
     test_sai(Gts, L2, 100),
     test_sai(Gts, L2, 10),
