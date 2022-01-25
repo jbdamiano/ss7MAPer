@@ -6,13 +6,16 @@ rebar3 get-deps
 
 deps="_build/default/lib"
 
-cd $deps/osmo_map   
-patch -p1 < ../../../../patches/osmo_map.patch   
 
 
-cd ../../../../
+
+
 sed -i 's/DRV_CFLAGS/CFLAGS/g' $deps/epcap/rebar.config
 sed -i 's/DRV_LDFLAGS/LDFLAGS/g' $deps/epcap/rebar.config
+
+
+
+sed -i 's%{outdir,\ \"src\"}%{outdir,\ \"_build/default/lib/osmo_map/src/\"}%' $deps/osmo_map/rebar.config
 
 cd $deps
 git clone http://cgit.osmocom.org/erlang/signerl/
@@ -39,15 +42,6 @@ ln -sd ../../pkt $deps/osmo_map/$deps/pkt
 
 cp $deps/signerl/SCCP/itu/include/sccp.hrl $deps/osmo_sccp/src/   
 cp $deps/signerl/TCAP/include/tcap.hrl $deps/osmo_map/src/
-cd $deps/osmo_map/asn1
-erlc  -W -b ber_bin +optimize +driver +noobj  map.set.asn1
-erlc  -W -b ber_bin +optimize +driver +noobj  map_only.set.asn1
-erlc  -W -b ber_bin +optimize +driver +noobj  tcap_asn.set.asn1
-cp map.* ../src/
-cp tcap_asn.* ../src
-cp map_only.* ../src/
-
-cd ../../../../..
 
 
 rebar3 compile
