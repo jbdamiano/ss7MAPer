@@ -14,10 +14,9 @@ sed -i 's/DRV_CFLAGS/CFLAGS/g' $deps/epcap/rebar.config
 sed -i 's/DRV_LDFLAGS/LDFLAGS/g' $deps/epcap/rebar.config
 
 
-
-sed -i 's%{outdir,\ \"src\"}%{outdir,\ \"_build/default/lib/osmo_map/src/\"}%' $deps/osmo_map/rebar.config
-
-cd $deps
+cd  $deps/osmo_map
+rebar3 asn1 compile
+cd ..
 git clone http://cgit.osmocom.org/erlang/signerl/
 
 cd signerl/TCAP/asn_src/ITU
