@@ -107,7 +107,7 @@ connect(Configfile) ->
     wait_for_link(Link),
     timer:send_after(1000,self(),{start_test}),
     #loop_dat{m3ua_pid = M3uaPid, scrc_pid = ScrcPid, ss7links_pid = SS7linksPid, ss7routes_pid = SS7routesPid, link = Link,
-                local_pc = Local_PC, remote_pc = Remote_PC, gt_local = GT_Local, gt_hlr = GT_Hlr, gt_vlr = GT_Vlr, gt_msc = GT_Msc, 
+                local_pc = Local_PC, remote_pc = Remote_PC, gt_local = GT_Local, gt_hlr = GT_Hlr, gt_vlr = GT_Vlr, gt_msc = GT_Msc,
                 gt_sgsn = GT_Sgsn, gt_gmsc = GT_Gmsc, gt_smsc = GT_Smsc, msisdn = Msisdn, imsi = Imsi, scenter = SCenter, fnumber = FNumber, test = Test}. 
 
 wait_for_link(Link) ->

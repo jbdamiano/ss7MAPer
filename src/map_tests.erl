@@ -11,24 +11,25 @@
 %~ =========
 
 test_hlr(L) ->
-    ok = sccp_user:bind_ssn(?SCCP_SSN_MSC),
+    ok = sccp_user:bind_ssn(?SCCP_SSN_SGSN),
     Gts = {L#loop_dat.gt_local, L#loop_dat.gt_hlr},
     %test_sri(Gts, L),
     %test_srifs(Gts, L),
-    L2 = test_si(Gts, L),
-    test_sai(Gts, L2, 100),
-    test_sai(Gts, L2, 10),
-    test_sai(Gts, L2, 5),
-    test_rss(Gts, L2),
-    test_ess(Gts, L2),
-    test_ul(Gts, L2),
-    test_ati(Gts, L2),
-    test_pms(Gts, L2),
-    ok = sccp_user:unbind_ssn(?SCCP_SSN_MSC, undefined),
+    %L2 = test_si(Gts, L),
+    test_sai(Gts, L, 1),
+    %test_sai(Gts, L2, 10),
+    %test_sai(Gts, L2, 5),
+    %test_rss(Gts, L2),
+    %test_ess(Gts, L2),
+    ok = sccp_user:unbind_ssn(?SCCP_SSN_SGSN, undefined),
     ok = sccp_user:bind_ssn(?SCCP_SSN_VLR),
-    test_pus(Gts, L2),
+    test_ul(Gts, L),
+    %test_ati(Gts, L2),
+    %test_pms(Gts, L2),
+    %ok = sccp_user:bind_ssn(?SCCP_SSN_VLR),
+    %test_pus(Gts, L2),
     ok = sccp_user:unbind_ssn(?SCCP_SSN_VLR, undefined),
-    L2.
+    L.
 
 test_sri(Gts, L) ->
     %~ ========
@@ -146,7 +147,7 @@ test_sai(Gts, L, Nr) ->
     %~ sendAuthenticationInfo
     %~ ========
     io:format("~n\e[93;1m# Testing sendAuthenticationInfo...\n\e[39;49;0m"),
-    tcap:send_tcap(L, Gts, {?SCCP_SSN_MSC, ?SCCP_SSN_HLR}, map_msgs:create_sendAuthenticationInfo(L#loop_dat.imsi, Nr)),
+    tcap:send_tcap(L, Gts, {?SCCP_SSN_SGSN, ?SCCP_SSN_HLR}, map_msgs:create_sendAuthenticationInfo(L#loop_dat.imsi, Nr)),
     receive
         {sccp, {primitive, 'N', 'UNITDATA', indication, Data}} ->
             case tcap:decode_tcap(Data) of
@@ -262,7 +263,7 @@ test_ul(Gts, L) ->
     %~ updateLocation
     %~ ========
     io:format("~n\e[93;1m# Testing updateLocation...\n\e[39;49;0m"),
-    tcap:send_tcap(L, Gts, {?SCCP_SSN_MSC, ?SCCP_SSN_HLR}, map_msgs:create_updateLocation(L#loop_dat.imsi, L#loop_dat.gt_local, L#loop_dat.gt_local)),
+    tcap:send_tcap(L, Gts, {?SCCP_SSN_VLR, ?SCCP_SSN_HLR}, map_msgs:create_updateLocation(L#loop_dat.imsi, L#loop_dat.gt_local, L#loop_dat.gt_local)),
     receive
         {sccp, {primitive, 'N', 'UNITDATA', indication, Data}} ->
             case tcap:decode_tcap(Data) of

@@ -7,20 +7,20 @@
 
 -export([send_tcap/4, decode_tcap/1]).
 
-send_tcap(L, {Lgt, Rgt}, {Sssn, Dssn}, PDU) ->
-    CallingP = #sccp_addr{ssn = Sssn, point_code = L#loop_dat.local_pc, 
-        global_title = #global_title{gti = ?SCCP_GTI_TT_NP_ENC_NAT, trans_type = ?SCCP_GTI_NO_GT,
-            encoding = 0, numbering_plan = 1, phone_number = Lgt,
-            nature_of_addr_ind = ?ISUP_ADDR_NAT_INTERNATIONAL}},
-	CalledP = #sccp_addr{ssn = Dssn, point_code = L#loop_dat.remote_pc,
-        global_title = #global_title{gti = ?SCCP_GTI_TT_NP_ENC_NAT, trans_type = ?SCCP_GTI_NO_GT,
-            encoding = 0, numbering_plan = 1, phone_number = Rgt,
-            nature_of_addr_ind = ?ISUP_ADDR_NAT_INTERNATIONAL}},
-	Opts = [{protocol_class, {1, 8}}, {called_party_addr, CalledP},
-		{calling_party_addr, CallingP}, {user_data, PDU}],
-    %~ io:format("Sending N-UNITDATA.req to SCRC~n"),
-	%~ io:format("Link is in state ~p~n", [sys:get_status(L#loop_dat.scrc_pid)]),
-    gen_fsm:send_event(L#loop_dat.scrc_pid, osmo_util:make_prim('N','UNITDATA',request,Opts)).
+  send_tcap(L, {Lgt, Rgt}, {Sssn, Dssn}, PDU) ->
+      CallingP = #sccp_addr{ssn = Sssn, point_code = L#loop_dat.local_pc, 
+          global_title = #global_title{gti = ?SCCP_GTI_TT_NP_ENC_NAT, trans_type = ?SCCP_GTI_NO_GT,
+              encoding = 0, numbering_plan = 1, phone_number = Lgt,
+              nature_of_addr_ind = ?ISUP_ADDR_NAT_INTERNATIONAL}},
+    CalledP = #sccp_addr{ssn = Dssn, point_code = L#loop_dat.remote_pc, route_on_ssn = 1,
+          global_title = #global_title{gti = ?SCCP_GTI_TT_NP_ENC_NAT, trans_type = ?SCCP_GTI_NO_GT,
+              encoding = 0, numbering_plan = 7, phone_number = Rgt,
+              nature_of_addr_ind = ?ISUP_ADDR_NAT_INTERNATIONAL}},
+    Opts = [{protocol_class, {1, 8}}, {called_party_addr, CalledP},
+      {calling_party_addr, CallingP}, {user_data, PDU}],
+      %~ io:format("Sending N-UNITDATA.req to SCRC~n"),
+    %~ io:format("Link is in state ~p~n", [sys:get_status(L#loop_dat.scrc_pid)]),
+      gen_fsm:send_event(L#loop_dat.scrc_pid, osmo_util:make_prim('N','UNITDATA',request,Opts)).
 
 decode_tcap(Data) ->
     {sccp_msg, _, ProtData} = Data,
